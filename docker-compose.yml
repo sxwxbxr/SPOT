@@ -1,0 +1,82 @@
+# path: docker-compose.yml
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: spot-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: spot
+      POSTGRES_USER: ${POSTGRES_USER:-spot}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-spot}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U '${POSTGRES_USER:-spot}' -d spot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  opensearch:
+    image: opensearchproject/opensearch:2.16.0
+    container_name: spot-opensearch
+    environment:
+      discovery.type: single-node
+      plugins.security.disabled: "true"
+      OPENSEARCH_INITIAL_ADMIN_PASSWORD: ${OPENSEARCH_INITIAL_ADMIN_PASSWORD:-spotadmin}
+    ports:
+      - "9200:9200"
+      - "9600:9600"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      - opensearch-data:/usr/share/opensearch/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sSf http://localhost:9200 >/dev/null"]
+      interval: 20s
+      timeout: 10s
+      retries: 5
+
+  opensearch-dashboards:
+    image: opensearchproject/opensearch-dashboards:2.16.0
+    container_name: spot-opensearch-dashboards
+    ports:
+      - "5601:5601"
+    depends_on:
+      opensearch:
+        condition: service_healthy
+    environment:
+      OPENSEARCH_HOSTS: '["http://opensearch:9200"]'
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sSf http://localhost:5601/api/status >/dev/null"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # server:
+  #   build:
+  #     context: .
+  #     dockerfile: apps/server/Spot.Api/Dockerfile
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #     opensearch:
+  #       condition: service_healthy
+  #   environment:
+  #     ASPNETCORE_ENVIRONMENT: Development
+  #     ConnectionStrings__Postgres: Host=postgres;Port=5432;Database=spot;Username=${POSTGRES_USER:-spot};Password=${POSTGRES_PASSWORD:-spot}
+  #   ports:
+  #     - "8080:8080"
+  #   # Disabled by default to keep the container stack light during early development.
+
+volumes:
+  postgres-data:
+  opensearch-data:

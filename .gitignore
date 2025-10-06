@@ -1,0 +1,50 @@
+# path: .gitignore
+## Build artifacts
+bin/
+obj/
+artifacts/
+
+## User-specific files
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Visual Studio Code
+.vscode/
+.settings/
+
+## Logs
+*.log
+
+## Dotnet Tools
+.nuget/
+.dotnet/
+
+## Docker
+**/.dockerignore
+
+## Secrets and environment
+*.env
+*.env.*
+!.env.template
+secrets/
+.env
+
+## Playwright
+**/bin/**
+**/obj/**
+Playwright/.cache/
+
+## Node modules (Playwright deps)
+**/node_modules/
+
+## JetBrains Rider
+.idea/
+
+## Coverage
+coverage/
+
+## Scripts
+scripts/*.log

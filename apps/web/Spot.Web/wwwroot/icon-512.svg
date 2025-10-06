@@ -1,0 +1,14 @@
+<!-- path: apps/web/Spot.Web/wwwroot/icon-512.svg -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="spotGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563eb" />
+      <stop offset="100%" stop-color="#7c3aed" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="88" fill="url(#spotGradient)" />
+  <g fill="#ffffff" font-family="'Segoe UI', sans-serif" font-size="164" font-weight="700" text-anchor="middle">
+    <text x="50%" y="52%">SP</text>
+    <text x="50%" y="78%">OT</text>
+  </g>
+</svg>
