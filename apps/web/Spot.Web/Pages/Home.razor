@@ -1,0 +1,46 @@
+@page "/"
+@implements IAsyncDisposable
+
+<PageTitle>Dashboard</PageTitle>
+
+<section class="container py-5">
+    <h1 class="display-5 fw-semibold mb-3">Welcome to SPOT</h1>
+    <p class="lead text-muted mb-4">
+        Single Point of Truth keeps operations available even when you're offline. Sync changes when the network returns using a
+        timestamp-based last-write-wins strategy.
+    </p>
+    <SpotBadge Label="Offline Ready" CssClass="me-2" />
+    <SpotBadge Label="Preview" CssClass="bg-dark" />
+</section>
+
+<section class="container pb-5">
+    <h2 class="h4">3D Preview</h2>
+    <canvas id="preview-canvas" class="w-100" style="height: 320px; background: #0f172a;"></canvas>
+</section>
+
+@code {
+    private ThreeJsModule? _three;
+
+    [Inject]
+    private ThreeJsModule Three { get; set; } = default!;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+        {
+            return;
+        }
+
+        _three = Three;
+        const string sampleModel = "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/DamagedHelmet/glTF-Binary/DamagedHelmet.glb";
+        await _three.RenderSceneAsync("preview-canvas", sampleModel);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_three is not null)
+        {
+            await _three.DisposeAsync();
+        }
+    }
+}

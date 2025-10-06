@@ -1,0 +1,28 @@
+# path: .editorconfig
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+indent_style = space
+indent_size = 4
+trim_trailing_whitespace = true
+
+[*.{cs,cshtml,razor}]
+indent_size = 4
+csharp_style_var_for_built_in_types = true:error
+csharp_style_var_when_type_is_apparent = true:error
+csharp_style_var_elsewhere = true:error
+dotnet_style_qualification_for_field = false:error
+dotnet_style_qualification_for_property = false:error
+dotnet_style_qualification_for_method = false:error
+dotnet_style_prefer_auto_properties = true:error
+csharp_prefer_braces = true:error
+
+[*.{json,yml,yaml,md}]
+indent_size = 2
+
+[*.{ps1,sh}]
+indent_size = 2
+end_of_line = lf

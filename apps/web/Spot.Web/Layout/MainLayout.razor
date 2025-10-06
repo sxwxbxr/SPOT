@@ -1,0 +1,20 @@
+@inherits LayoutComponentBase
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <div class="top-row px-4 align-items-center">
+            <h1 class="h5 m-0 d-flex align-items-center gap-2">
+                <SpotBadge Label="SPOT" />
+                <span class="text-muted">Single Point of Truth</span>
+            </h1>
+        </div>
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>

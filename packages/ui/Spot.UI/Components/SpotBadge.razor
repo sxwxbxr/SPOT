@@ -1,0 +1,9 @@
+<span class="spot-badge @CssClass">@Label</span>
+
+@code {
+    [Parameter]
+    public string Label { get; set; } = "Spot";
+
+    [Parameter]
+    public string CssClass { get; set; } = string.Empty;
+}

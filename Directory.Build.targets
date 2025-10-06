@@ -1,0 +1,13 @@
+<!-- path: Directory.Build.targets -->
+<Project>
+  <Target Name="ConfigureGeneratedWarningHandling" BeforeTargets="CoreCompile">
+    <ItemGroup>
+      <Compile Update="**/*.g.cs">
+        <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+      </Compile>
+      <Compile Update="**/*.generated.cs">
+        <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+      </Compile>
+    </ItemGroup>
+  </Target>
+</Project>
