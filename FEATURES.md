@@ -1,17 +1,17 @@
-# SPOT Feature-Übersicht
+# SPOT Feature Overview
 
-## ✅ Implementierte Features
+## ✅ Implemented Features
 
-- **Blazor WebAssembly Dashboard mit Offline-Hinweisen und 3D-Vorschau** – Die Startseite präsentiert den Offline-First-Nutzen, rendert Spot-Badges aus der UI-Bibliothek und lädt ein glTF-Modell über Three.js in einem Canvas. 【F:apps/web/Spot.Web/Pages/Home.razor†L1-L46】
-- **IndexedDB-gestützter Offline-Puffer für Client-Anfragen** – Ein C#-Service kapselt die JavaScript-Interop, um Payloads in einer lokalen Warteschlange zu speichern und wieder abzurufen. 【F:apps/web/Spot.Web/Services/IndexedDbStorage.cs†L1-L26】【F:apps/web/Spot.Web/wwwroot/js/indexedDb.js†L1-L50】
-- **Three.js-Integration für WebGL-Rendering** – Ein dediziertes JS-Modul und die zugehörige .NET-Interop abstrahieren das Laden und Anzeigen von glTF-Szenen. 【F:apps/web/Spot.Web/Interop/ThreeJs/ThreeJsModule.cs†L1-L31】【F:apps/web/Spot.Web/wwwroot/js/threeInterop.js†L1-L31】
-- **ASP.NET Core API-Grundgerüst** – Der Server stellt konfigurierte CORS-Richtlinien, Health Checks, Swagger UI sowie einen Status-Endpunkt bereit und validiert Verbindungs- und OpenSearch-Optionen. 【F:apps/server/Spot.Api/Program.cs†L1-L77】【F:apps/server/Spot.Api/Options/ConnectionStringsOptions.cs†L1-L9】【F:apps/server/Spot.Api/Options/OpenSearchOptions.cs†L1-L16】
-- **Typed Client SDK auf Basis von Refit** – Erweiterungsmethoden registrieren einen typisierten `ISpotApi`-Client, der das Status-DTO aus dem gemeinsamen Kern nutzt. 【F:packages/client-sdk/Spot.ClientSdk/Extensions/ServiceCollectionExtensions.cs†L1-L26】【F:packages/client-sdk/Spot.ClientSdk/Abstractions/ISpotApi.cs†L1-L10】【F:packages/core/Spot.Core/Status/ApiStatusDto.cs†L1-L3】
-- **Geteilte UI- und Domänen-Bausteine** – Das UI-Paket liefert wiederverwendbare Komponenten wie `SpotBadge`, während der Core-Kontext Project-Sync-Verträge und DTOs definiert. 【F:packages/ui/Spot.UI/Components/SpotBadge.razor†L1-L9】【F:packages/core/Spot.Core/Projects/ProjectSummary.cs†L1-L3】【F:packages/core/Spot.Core/Projects/IProjectSyncService.cs†L1-L6】
+- **Blazor WebAssembly dashboard with offline messaging and 3D preview** – The landing page highlights SPOT's offline-first value proposition, renders Spot badges from the shared UI library, and loads a glTF model via Three.js. (apps/web/Spot.Web/Pages/Home.razor)
+- **IndexedDB-backed offline queue for client requests** – A C# service wraps the JavaScript interop to persist payloads locally and replay them once connectivity is restored. (apps/web/Spot.Web/Services/IndexedDbStorage.cs, apps/web/Spot.Web/wwwroot/js/indexedDb.js)
+- **Three.js integration for WebGL rendering** – A dedicated JavaScript module and the .NET interop surface encapsulate loading and displaying glTF scenes. (apps/web/Spot.Web/Interop/ThreeJs/ThreeJsModule.cs, apps/web/Spot.Web/wwwroot/js/threeInterop.js)
+- **ASP.NET Core API foundation** – The server configures CORS, health checks, Swagger UI, and a status endpoint while validating connection-string and OpenSearch options. (apps/server/Spot.Api/Program.cs, apps/server/Spot.Api/Options)
+- **Typed client SDK powered by Refit** – Extension methods register a strongly typed `ISpotApi` client that consumes the shared status DTO from the core package. (packages/client-sdk/Spot.ClientSdk, packages/core/Spot.Core/Status)
+- **Shared UI and domain building blocks** – The UI package provides reusable components like `SpotBadge`, while the core context exposes project-sync contracts and DTOs. (packages/ui/Spot.UI/Components, packages/core/Spot.Core/Projects)
 
-## 🚧 Geplante Features
+## 🚧 Planned Features
 
-- **EF Core DbContext und Seed-Migrationen** zur Persistenz von Projektdaten. 【F:README.md†L287-L292】
-- **OpenSearch-Integration sowie Microsoft Graph/FileCloud Adapter** für erweiterte Suche und Dokumentensynchronisation. 【F:README.md†L289-L292】
-- **Ausgereiftere Offline-Synchronisation inklusive erweiterter IndexedDB-Schemata und Sync-Orchestrierung**. 【F:README.md†L291-L306】
-- **Produktionsreife Bereitstellung mit gehärteten Dockerfiles und Deployment-Playbooks**. 【F:README.md†L307-L309】
+- **EF Core DbContext and seed migrations** to persist project data. (see README.md roadmap)
+- **OpenSearch integration plus Microsoft Graph/FileCloud adapters** for richer search and document synchronization. (see README.md roadmap)
+- **Expanded offline synchronization** with advanced IndexedDB schemas and orchestration. (see README.md roadmap)
+- **Production-ready deployment assets** including hardened Dockerfiles and operational playbooks. (see README.md roadmap)
