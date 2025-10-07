@@ -143,6 +143,8 @@ tests/
 
 ## Quickstart
 
+> ℹ️ Ensure Docker Desktop (Windows/macOS) or Docker Engine (Linux) is running before launching the dev scripts; otherwise the watchdog will exit early.
+
 ```bash
 # restore tools & dependencies
 dotnet restore
@@ -274,6 +276,7 @@ flowchart TB
 | Docker containers exit immediately | Ensure virtualization is enabled and rerun `docker compose up --pull always` inside `infra/`. |
 | Playwright tests fail with missing browsers | Re-run `npx playwright install --with-deps` and ensure the PWA is reachable at `http://localhost:5173`. |
 | `dotnet restore` uses unexpected SDK | Confirm the global.json (future addition) or run `dotnet --version` to verify 8.0.x. |
+| `./scripts/dev.ps1` exits with `Docker is required to run the dev environment.` | Install Docker Desktop (or enable Docker Engine) and ensure it is running before re-running the script. |
 | Ports already in use | Stop lingering containers (`docker ps -a`) or adjust compose overrides with alternative ports. |
 
 ---
