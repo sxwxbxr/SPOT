@@ -1,12 +1,25 @@
 # SPOT
 
-> **S**treamlined **P**latform for **O**ffline-first **T**eams — a .NET 8 monorepo that delivers a Blazor WebAssembly PWA, an ASP.NET Core Web API, shared Razor UI components, rich domain logic, and typed API clients. The repo is tuned for deterministic tooling, offline-ready workflows, and environment parity between local Docker and on-prem deployments.
+<div align="center">
+  <img src="https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/blazor.svg" alt="SPOT Icon" height="96" />
+  <h3>Streamlined Platform for Offline-first Teams</h3>
+  <p>
+    SPOT is a .NET 8 monorepo delivering a Blazor WebAssembly PWA, ASP.NET Core Web API, shared Razor UI components,
+    domain logic, and typed client SDKs — crafted for deterministic tooling, offline-ready workflows, and infrastructure parity.
+  </p>
+</div>
 
-<p align="center">
+<div align="center">
   <img src="https://img.shields.io/badge/.NET-8.0-512BD4?logo=dotnet" alt=".NET 8" />
   <img src="https://img.shields.io/badge/Blazor-WASM-5C2D91?logo=blazor" alt="Blazor" />
   <img src="https://img.shields.io/badge/Infrastructure-Docker-2496ED?logo=docker" alt="Docker" />
-</p>
+  <img src="https://img.shields.io/badge/CI-GitHub%20Actions-181717?logo=github" alt="GitHub Actions" />
+  <img src="https://img.shields.io/badge/Testing-Playwright-2EAD33?logo=playwright" alt="Playwright" />
+</div>
+
+<br />
+
+> _"Designing resilient offline-first experiences with delightful developer ergonomics."_
 
 ---
 
@@ -30,11 +43,18 @@
 
 ## Highlights
 
-- 🚀 **Unified Monorepo** – Apps, shared packages, infrastructure, and tests live side-by-side for tight cohesion.
-- 🧭 **Offline-First Mindset** – Infrastructure parity and typed clients prepare the stack for disconnected scenarios.
-- 🧪 **Deterministic Tooling** – Scripts and `just` recipes ensure the same commands work across macOS, Windows, and Linux.
-- 🧱 **Composable UI** – Shared Razor component library powers both PWA and future host experiences.
-- 🔐 **Secure by Configuration** – Environment variables and user secrets keep credentials out of source control.
+<table>
+  <tr>
+    <td align="center">🚀<br /><strong>Unified Monorepo</strong><br /><sub>Apps, shared packages, infrastructure, and tests live side-by-side for tight cohesion.</sub></td>
+    <td align="center">🧭<br /><strong>Offline-First Mindset</strong><br /><sub>Typed clients and mirrored infra make disconnected scenarios a first-class concern.</sub></td>
+    <td align="center">🧪<br /><strong>Deterministic Tooling</strong><br /><sub>`just` recipes & scripts guarantee the same commands across macOS, Windows, and Linux.</sub></td>
+  </tr>
+  <tr>
+    <td align="center">🧱<br /><strong>Composable UI</strong><br /><sub>Shared Razor component library powers the PWA and future host experiences.</sub></td>
+    <td align="center">🔐<br /><strong>Secure by Configuration</strong><br /><sub>Environment variables & secrets management keep credentials out of source control.</sub></td>
+    <td align="center">⚡<br /><strong>Dev Ergonomics</strong><br /><sub>Hot reload, Playwright automation, and Docker parity keep delivery fast and confident.</sub></td>
+  </tr>
+</table>
 
 ---
 
@@ -145,6 +165,23 @@ When the script completes, the following services are available:
 | OpenSearch Dashboards | `http://localhost:5601` |
 | PostgreSQL | `localhost:5432` |
 
+```mermaid
+flowchart LR
+    subgraph Local Environment
+        A[Bootstrap Scripts]
+        B[Docker Compose Stack]
+        C[dotnet watch]
+        D[Browser Preview]
+    end
+
+    A --> B
+    A --> C
+    C --> D
+    B -->|Services exposed| D
+    B -->|DB & Search| DevDB[(PostgreSQL)]
+    B -->|Dashboards| OS[(OpenSearch Dashboards)]
+```
+
 ---
 
 ## Developer Workflow
@@ -159,6 +196,18 @@ When the script completes, the following services are available:
 
 > Have `just` installed? Mirror commands as `just dev`, `just test`, `just build`, and more.
 
+```mermaid
+stateDiagram-v2
+    [*] --> Restore: dotnet restore
+    Restore --> InstallBrowsers: Playwright setup
+    InstallBrowsers --> DevStack: ./scripts/dev.(sh|ps1)
+    DevStack --> HotReload: dotnet watch PWA/API
+    HotReload --> Iterate: Build features & shared packages
+    Iterate --> Test: ./scripts/test.(sh|ps1)
+    Test --> Package: ./scripts/build.(sh|ps1)
+    Package --> [*]
+```
+
 ---
 
 ## Testing Matrix
@@ -169,6 +218,14 @@ When the script completes, the following services are available:
 | `./scripts/test.sh --include-e2e` | All of the above + Playwright smoke | Requires running PWA/API |
 | `dotnet test spot.sln` | Raw .NET runner | Useful inside CI or containers |
 | `npx playwright test` | Standalone E2E | Targets running PWA at `http://localhost:5173` |
+
+```mermaid
+pie title Test Coverage Composition
+    "Client" : 25
+    "Core" : 25
+    "Server" : 30
+    "E2E" : 20
+```
 
 ---
 
@@ -191,6 +248,23 @@ When the script completes, the following services are available:
 - Docker stack expects `POSTGRES_PASSWORD` and `OPENSEARCH_INITIAL_ADMIN_PASSWORD`. Provide a local `.env` (gitignored) or export env vars before running scripts.
 - Playwright caches browsers under `~/.cache/ms-playwright` — share across projects or CI runners for faster installs.
 
+```mermaid
+flowchart TB
+    Config[Configuration Sources]
+    AppSettings[appsettings.json]
+    EnvVars[Environment Variables]
+    UserSecrets[User Secrets]
+    DockerEnv[Docker .env]
+
+    Config --> AppSettings
+    Config --> EnvVars
+    Config --> UserSecrets
+    Config --> DockerEnv
+    EnvVars -->|override| Runtime[(Runtime)]
+    UserSecrets -->|local development| Runtime
+    DockerEnv -->|compose overrides| Runtime
+```
+
 ---
 
 ## Troubleshooting
@@ -210,6 +284,24 @@ When the script completes, the following services are available:
 - Integrate OpenSearch client wiring and Microsoft Graph/FileCloud adapters.
 - Flesh out offline sync flow and IndexedDB schema.
 - Add production-ready Dockerfiles and deployment workflows.
+
+```mermaid
+gantt
+    title Roadmap Snapshot
+    dateFormat  YYYY-MM-DD
+    section Data & Storage
+    EF Core Foundations          :active,   des1, 2024-06-01, 20d
+    Seed Data Workflow           :         des2, after des1, 15d
+    section Integrations
+    OpenSearch Wiring            :         des3, 2024-07-01, 14d
+    Graph/FileCloud Connectors   :         des4, after des3, 21d
+    section Offline Experience
+    IndexedDB Schema             :         des5, 2024-07-20, 18d
+    Sync Orchestration           :         des6, after des5, 24d
+    section Delivery
+    Production Dockerfiles       :         des7, 2024-08-10, 14d
+    Deployment Playbooks         :         des8, after des7, 10d
+```
 
 ---
 
