@@ -9,6 +9,23 @@ if (-not (Get-Command docker -ErrorAction SilentlyContinue)) {
     Write-Error 'Docker is required to run the dev environment.'
 }
 
+try {
+    docker info *> $null
+}
+catch {
+    $hint = @'
+Docker could not be reached.
+
+On Windows, this typically means Docker Desktop is not running with administrative privileges or your account is not part of the `docker-users` group.
+
+1. Launch Docker Desktop using "Run as administrator" at least once.
+2. Add your Windows user to the `docker-users` group (`net localgroup docker-users %USERNAME% /add`).
+3. Sign out and back in, then rerun this script.
+'@
+
+    Write-Error ("$hint`nOriginal error: {0}" -f $_.Exception.Message)
+}
+
 Write-Host '[spot] starting infrastructure containers...'
 docker compose up -d postgres opensearch opensearch-dashboards
 

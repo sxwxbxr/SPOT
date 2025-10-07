@@ -144,6 +144,8 @@ tests/
 ## Quickstart
 
 > ℹ️ Ensure Docker Desktop (Windows/macOS) or Docker Engine (Linux) is running before launching the dev scripts; otherwise the watchdog will exit early.
+>
+> ⚠️ Windows tip: if you hit `open //./pipe/docker_engine` or "docker client must be run with elevated privileges", start Docker Desktop via **Run as administrator** once, add yourself to the `docker-users` group (`net localgroup docker-users %USERNAME% /add`), then sign out/in before retrying `./scripts/dev.ps1`.
 
 ```bash
 # restore tools & dependencies
